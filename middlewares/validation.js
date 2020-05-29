@@ -1,5 +1,5 @@
 import { check, validationResult } from 'express-validator';
-import { User } from '../models';
+import { User, Project } from '../models';
 
 export const returnValidationErrors = (req, res, next) => {
   const errors = validationResult(req)
@@ -42,7 +42,6 @@ export const validateProject = [
     .withMessage('Please enter a userId.')
     .isInt()
     .withMessage('userId should be an integer.'),
-
   check('status')
     .exists()
     .withMessage('Project should have a status.')
@@ -76,3 +75,61 @@ export const validateUser = async (req, res, next) => {
     });
   }
 };
+
+export const validateProjectId = async (req, res, next) => {
+  const {
+    body: { projectId },
+  } = req;
+  try {
+    const project = await Project.findOne({
+      where: { id: projectId },
+    });
+
+    if (!project) {
+      return res.status(404).json({
+        errors: ['Project does not exist.'],
+      });
+    }
+    return next();
+  } catch (err) {
+    return res.status(500).json({
+      errors: ['Something went wrong'],
+    });
+  }
+};
+
+export const validateTask = [
+  check('description')
+    .exists()
+    .withMessage('Task should have a description text.'),
+  check('name')
+    .isLength({ min: 2 })
+    .withMessage('Name must be at least 2 characters long.')
+    .isString()
+    .withMessage('Name must be alphanumeric characters.'),
+  check('userId')
+    .exists()
+    .withMessage('Please enter a userId.')
+    .isInt()
+    .withMessage('userId should be an integer.'),
+  check('projectId')
+    .exists()
+    .withMessage('Please enter a project id.')
+    .isInt()
+    .withMessage('Project id should be an integer.'),
+  check('score')
+    .exists()
+    .withMessage('Please enter a score.')
+    .isInt()
+    .withMessage('Score should be an integer.'),
+  check('status')
+    .exists()
+    .withMessage('Task should have a status.')
+    .custom(
+      (value) =>
+        ['active', 'inactive', 'declined', 'completed'].indexOf(value) !== -1
+    )
+    .withMessage(
+      'Status should either be active, inactive, declined or completed.'
+    ),
+];

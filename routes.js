@@ -5,8 +5,11 @@ import {
   returnValidationErrors,
   validateProject,
   validateUser,
+  validateTask,
+  validateProjectId,
 } from './middlewares/validation';
 import ProjectController from './controllers/project';
+import TaskController from './controllers/task';
 
 const router = express.Router();
 
@@ -21,5 +24,14 @@ router
     returnValidationErrors,
     validateUser,
     ProjectController.createProject
+  );
+router
+  .route('/tasks')
+  .post(
+    validateTask,
+    returnValidationErrors,
+    validateUser,
+    validateProjectId,
+    TaskController.createTask
   );
 export default router;
