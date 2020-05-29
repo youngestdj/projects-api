@@ -21,12 +21,16 @@ export default class UserController {
     try {
       const user = await User.create({ email, name, surname });
       return res.status(201).json({
-        message: 'You have signed up successfully',
+        message: 'You have signed up successfully.',
         user,
       });
     } catch (err) {
+      const errors = [];
+      if (err.errors && err.errors[0].path === 'email') {
+        errors.push(err.errors[0].message);
+      }
       return res.status(409).json({
-        err,
+        errors,
       });
     }
   }

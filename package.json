@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test",
+    "test": "sequelize db:migrate:undo:all && sequelize db:migrate && nyc --reporter=lcov --reporter=text mocha tests/index.js --timeout=20000 --require @babel/register --exit",
     "start:dev": "babel-watch index.js"
   },
   "repository": {
@@ -18,10 +18,11 @@
   },
   "homepage": "https://github.com/youngestdj/projects-api#readme",
   "dependencies": {
+    "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.1",
     "@babel/preset-env": "^7.10.1",
     "@babel/register": "^7.10.1",
-    "babel-cli": "^6.26.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "body-parser": "^1.19.0",
@@ -39,11 +40,16 @@
   },
   "devDependencies": {
     "babel-watch": "^7.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "coveralls": "^3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
+    "mocha": "^7.2.0",
+    "nyc": "^15.0.1",
     "prettier": "^2.0.5"
   }
 }
