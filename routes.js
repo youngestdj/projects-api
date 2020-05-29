@@ -9,11 +9,6 @@ import {
 import ProjectController from './controllers/project';
 
 const router = express.Router();
-router.route('/test').get((req, res) => {
-  return res.status(200).json({
-    message: 'Everything is ok',
-  });
-});
 
 router
   .route('/users')
