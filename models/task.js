@@ -16,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    projectId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   };
   const Task = sequelize.define('Task', taskSchema, {});
   Task.associate = (models) => {

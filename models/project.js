@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       values: ['active', 'inactive', 'declined', 'completed'],
       defaultValue: 'inactive',
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   };
   const Project = sequelize.define('Project', projectSchema, {});
   Project.associate = (models) => {
