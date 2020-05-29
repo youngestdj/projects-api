@@ -94,3 +94,48 @@ describe('Make a request to signup with existing email', () => {
       });
   });
 });
+
+describe('Make a request to get all users', () => {
+  it('returns all users', (done) => {
+    chai
+      .request(app)
+      .get('/API/users')
+      .end((err, res) => {
+        const {
+          status,
+          body: {
+            users: { count, rows },
+          },
+        } = res;
+        expect(status).to.be.equal(200);
+        expect(count).to.be.equal(1);
+        expect(rows[0].id).to.be.equal(1);
+        expect(rows[0].email).to.be.equal('validemail@test.com');
+        expect(rows[0].name).to.be.equal('valid');
+        expect(rows[0].surname).to.be.equal('surname');
+        done(err);
+      });
+  });
+});
+describe('Make a request to get all users with name and surname parameters', () => {
+  it('returns all users', (done) => {
+    chai
+      .request(app)
+      .get('/API/users?name=valid&surname=surname')
+      .end((err, res) => {
+        const {
+          status,
+          body: {
+            users: { count, rows },
+          },
+        } = res;
+        expect(status).to.be.equal(200);
+        expect(count).to.be.equal(1);
+        expect(rows[0].id).to.be.equal(1);
+        expect(rows[0].email).to.be.equal('validemail@test.com');
+        expect(rows[0].name).to.be.equal('valid');
+        expect(rows[0].surname).to.be.equal('surname');
+        done(err);
+      });
+  });
+});

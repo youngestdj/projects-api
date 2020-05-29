@@ -4,6 +4,8 @@
 
 #### Register user
 
+`POST /API/users`
+
 ##### Request body
 
 ```
@@ -31,6 +33,8 @@
 ```
 
 #### Add new project
+
+`POST /API/projects`
 
 ##### Request body
 
@@ -64,6 +68,8 @@
 
 #### Add new task
 
+`POST /API/tasks`
+
 ##### Request body
 
 ```
@@ -94,6 +100,39 @@
     "projectId": 1,
     "updatedAt": "2020-05-29T20:34:57.133Z",
     "createdAt": "2020-05-29T20:34:57.133Z"
+  }
+}
+```
+
+#### Get all users
+
+`GET /API/users`
+`{param}`: `name`, `surname`
+
+##### Response
+
+```
+{
+  "users": {
+    "count": 2,
+    "rows": [
+      {
+        "id": 1,
+        "email": "validemail@test.com",
+        "name": "valid",
+        "surname": "surname",
+        "createdAt": "2020-05-29T20:32:48.453Z",
+        "updatedAt": "2020-05-29T20:32:48.453Z"
+      },
+      {
+        "id": 3,
+        "email": "test@gmail.com",
+        "name": "First",
+        "surname": "Appuser",
+        "createdAt": "2020-05-29T21:24:40.366Z",
+        "updatedAt": "2020-05-29T21:24:40.366Z"
+      }
+    ]
   }
 }
 ```

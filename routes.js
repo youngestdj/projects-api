@@ -34,4 +34,5 @@ router
     validateProjectId,
     TaskController.createTask
   );
+router.route('/users').get(UserController.getUsers);
 export default router;
