@@ -1,4 +1,9 @@
 import express from 'express';
+import UserController from './controllers/user';
+import {
+  validateSignup,
+  returnValidationErrors,
+} from './middlewares/validation';
 
 const router = express.Router();
 router.route('/test').get((req, res) => {
@@ -6,5 +11,8 @@ router.route('/test').get((req, res) => {
     message: 'Everything is ok',
   });
 });
-// router.use('/v1');
+
+router
+  .route('/users')
+  .post(validateSignup, returnValidationErrors, UserController.registerUser);
 export default router;

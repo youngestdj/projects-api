@@ -2,16 +2,20 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import morgan from 'morgan';
 import routes from './routes';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 dotenv.config();
 const app = express();
 
 app.use(cors());
+app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/api/v1', routes);
+app.use('/API', routes);
 app.get('/', (req, res) =>
   res.status(200).json({
     message: 'Projects api',
