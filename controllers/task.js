@@ -112,11 +112,11 @@ export default class TaskController {
           },
         ],
       });
-      return res.json({
+      return res.status(200).json({
         tasks,
       });
     } catch (err) {
-      return res.json({
+      return res.status(500).json({
         err: [err.message],
       });
     }

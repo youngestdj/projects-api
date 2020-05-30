@@ -256,3 +256,144 @@
   }
 }
 ```
+
+#### Get all projects
+
+`GET /API/projects`
+`{param}`: `name`, `body`, `status`, `assignerName`, `assignerSurname`, `assigneeName`, `assigneeSurname`, `assigneeId`, `taskScore`,
+
+##### Response
+
+```
+{
+  "projects": {
+    "count": 3,
+    "rows": [
+      {
+        "id": 1,
+        "name": "Sample project",
+        "body": "Sample project description",
+        "status": "active",
+        "userId": 1,
+        "createdAt": "2020-05-30T13:43:43.606Z",
+        "updatedAt": "2020-05-30T13:43:43.606Z",
+        "assigner": {
+          "id": 1,
+          "name": "valid",
+          "surname": "surname"
+        },
+        "Tasks": [
+          {
+            "id": 1,
+            "name": "Sample task",
+            "description": "Lorem ipsum stuff",
+            "score": 4,
+            "status": "declined",
+            "userId": 1,
+            "projectId": 1,
+            "createdAt": "2020-05-30T13:43:45.450Z",
+            "updatedAt": "2020-05-30T13:43:45.450Z",
+            "assignee": {
+              "id": 1,
+              "name": "valid",
+              "surname": "surname"
+            }
+          },
+          {
+            "id": 2,
+            "name": "Cool stuff",
+            "description": "Stuff",
+            "score": 5,
+            "status": "active",
+            "userId": 1,
+            "projectId": 1,
+            "createdAt": "2020-05-30T14:06:48.689Z",
+            "updatedAt": "2020-05-30T14:06:48.689Z",
+            "assignee": {
+              "id": 1,
+              "name": "valid",
+              "surname": "surname"
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Test project",
+        "body": "Lorem ipsum",
+        "status": "active",
+        "userId": 1,
+        "createdAt": "2020-05-30T14:06:54.619Z",
+        "updatedAt": "2020-05-30T14:06:54.619Z",
+        "assigner": {
+          "id": 1,
+          "name": "valid",
+          "surname": "surname"
+        },
+        "Tasks": []
+      },
+      {
+        "id": 3,
+        "name": "insom Test project",
+        "body": "insom Lorem ipsum",
+        "status": "active",
+        "userId": 1,
+        "createdAt": "2020-05-30T14:22:51.672Z",
+        "updatedAt": "2020-05-30T14:22:51.672Z",
+        "assigner": {
+          "id": 1,
+          "name": "valid",
+          "surname": "surname"
+        },
+        "Tasks": []
+      }
+    ]
+  }
+}
+```
+
+`GET /API/projects?name=Sample project&status=active&assignerName=valid&assignerSurname=surname&assigneeName=valid&assigneeSurname=surname&assigneeId=1&taskScore=4`
+
+##### Response
+
+```
+{
+  "projects": {
+    "count": 1,
+    "rows": [
+      {
+        "id": 1,
+        "name": "Sample project",
+        "body": "Sample project description",
+        "status": "active",
+        "userId": 1,
+        "createdAt": "2020-05-30T13:43:43.606Z",
+        "updatedAt": "2020-05-30T13:43:43.606Z",
+        "assigner": {
+          "id": 1,
+          "name": "valid",
+          "surname": "surname"
+        },
+        "Tasks": [
+          {
+            "id": 1,
+            "name": "Sample task",
+            "description": "Lorem ipsum stuff",
+            "score": 4,
+            "status": "declined",
+            "userId": 1,
+            "projectId": 1,
+            "createdAt": "2020-05-30T13:43:45.450Z",
+            "updatedAt": "2020-05-30T13:43:45.450Z",
+            "assignee": {
+              "id": 1,
+              "name": "valid",
+              "surname": "surname"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```

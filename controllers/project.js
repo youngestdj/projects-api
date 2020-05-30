@@ -1,4 +1,5 @@
-import { Project } from '../models';
+import { Op } from 'sequelize';
+import { Project, Task, User } from '../models';
 
 /**
  * @class ProjectController
@@ -12,7 +13,7 @@ export default class ProjectController {
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
    * @memberof ProjectController
-   * @returns {object} Class instance
+   * @returns {object} Json respose
    */
   static async createProject(req, res) {
     const {
@@ -27,6 +28,91 @@ export default class ProjectController {
     } catch (err) {
       return res.status(409).json({
         err,
+      });
+    }
+  }
+
+  static generateFilters(query) {
+    const {
+      name,
+      body,
+      status,
+      assignerName,
+      assignerSurname,
+      assigneeName,
+      assigneeSurname,
+      assigneeId,
+      taskScore,
+    } = query;
+
+    const projectFilter = {};
+    if (name) projectFilter.name = name;
+    if (body) projectFilter.body = body;
+    if (status) {
+      projectFilter.status = status;
+      if (Array.isArray(status)) projectFilter.status = { [Op.or]: status };
+    }
+    if (assigneeId) projectFilter.userId = assigneeId;
+
+    const assigneeFilter = {};
+    if (assigneeId) assigneeFilter.id = assigneeId;
+    if (assigneeName) assigneeFilter.name = assigneeName;
+    if (assigneeSurname) assigneeFilter.surname = assigneeSurname;
+
+    const assignerFilter = {};
+    if (assignerName) assignerFilter.name = assignerName;
+    if (assignerSurname) assignerFilter.surname = assignerSurname;
+
+    return { projectFilter, assigneeFilter, assignerFilter, taskScore };
+  }
+
+  /**
+   * @description Get a list of projects
+   * @static
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @memberof ProjectController
+   * @returns {object} Json response
+   */
+  static async getProjects(req, res) {
+    const {
+      projectFilter,
+      assignerFilter,
+      assigneeFilter,
+      taskScore,
+    } = ProjectController.generateFilters(req.query);
+
+    try {
+      const projects = await Project.findAndCountAll({
+        where: projectFilter,
+        include: [
+          {
+            model: User,
+            as: 'assigner',
+            where: assignerFilter,
+            attributes: ['id', 'name', 'surname'],
+          },
+          {
+            model: Task,
+            ...(taskScore && { where: { score: taskScore } }),
+            include: [
+              {
+                model: User,
+                as: 'assignee',
+                where: assigneeFilter,
+                attributes: ['id', 'name', 'surname'],
+              },
+            ],
+          },
+        ],
+        distinct: true,
+      });
+      return res.status(200).json({
+        projects,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        err: [err.message],
       });
     }
   }

@@ -19,6 +19,7 @@ router
 
 router
   .route('/projects')
+  .get(ProjectController.getProjects)
   .post(
     validateProject,
     returnValidationErrors,

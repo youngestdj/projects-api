@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
-import { validProject, invalidUserId } from './helpers';
+import { validProject, invalidUserId, validTask } from './helpers';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -74,6 +74,78 @@ describe('Make a request to create project with invalid userid', () => {
         expect(status).to.be.equal(404);
         expect(errors).to.be.an('Array');
         expect(errors[0]).to.be.equal('User does not exist.');
+        done(err);
+      });
+  });
+});
+
+describe('Make a request to get a lists of projects with no parameters', () => {
+  it('returns an array of projects.', (done) => {
+    chai
+      .request(app)
+      .get('/API/projects')
+      .end((err, res) => {
+        const {
+          status,
+          body: {
+            projects: { count, rows },
+          },
+        } = res;
+
+        expect(status).to.be.equal(200);
+        expect(count).to.be.equal(1);
+        expect(rows).to.be.an('Array');
+        expect(rows.length).to.be.equal(1);
+        done(err);
+      });
+  });
+});
+
+describe('Make a request to create task with valid details', () => {
+  it('returns a success message.', (done) => {
+    chai
+      .request(app)
+      .post('/API/tasks')
+      .send(validTask)
+      .end((err, res) => {
+        const {
+          status,
+          body: {
+            message,
+            task: { id, description, name, userId, projectId, score },
+          },
+        } = res;
+        expect(status).to.be.equal(201);
+        expect(id).to.be.equal(1);
+        expect(message).to.be.equal('Task added successfully.');
+        expect(res.body.task.status).to.be.equal('declined');
+        expect(name).to.be.equal('Sample task');
+        expect(score).to.be.equal(4);
+        expect(description).to.be.equal('Lorem ipsum stuff');
+        expect(userId).to.be.equal(1);
+        expect(projectId).to.be.equal(1);
+        done(err);
+      });
+  });
+});
+describe('Make a request to get a lists of projects with parameters', () => {
+  it('returns an array of projects.', (done) => {
+    chai
+      .request(app)
+      .get(
+        '/API/projects?name=Sample project&status=active&assignerName=valid&assignerSurname=surname&assigneeName=valid&assigneeSurname=surname&assigneeId=1&taskScore=4&body=Sample project description'
+      )
+      .end((err, res) => {
+        const {
+          status,
+          body: {
+            projects: { count, rows },
+          },
+        } = res;
+        expect(status).to.be.equal(200);
+        expect(count).to.be.equal(1);
+        expect(rows).to.be.an('Array');
+        expect(rows.length).to.be.equal(1);
         done(err);
       });
   });

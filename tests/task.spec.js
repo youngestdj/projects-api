@@ -21,7 +21,7 @@ describe('Make a request to create task with valid details', () => {
           },
         } = res;
         expect(status).to.be.equal(201);
-        expect(id).to.be.equal(1);
+        expect(id).to.be.equal(2);
         expect(message).to.be.equal('Task added successfully.');
         expect(res.body.task.status).to.be.equal('declined');
         expect(name).to.be.equal('Sample task');
@@ -105,7 +105,7 @@ describe('Make a request to create task with invalid project id', () => {
 });
 
 describe('Make a request to get a lists of tasks with no parameters', () => {
-  it('returns an array of errors.', (done) => {
+  it('returns an array of tasks.', (done) => {
     chai
       .request(app)
       .get('/API/tasks')
@@ -117,16 +117,16 @@ describe('Make a request to get a lists of tasks with no parameters', () => {
           },
         } = res;
         expect(status).to.be.equal(200);
-        expect(count).to.be.equal(1);
+        expect(count).to.be.equal(2);
         expect(rows).to.be.an('Array');
-        expect(rows.length).to.be.equal(1);
+        expect(rows.length).to.be.equal(2);
         done(err);
       });
   });
 });
 
 describe('Make a request to get a lists of tasks with parameters', () => {
-  it('returns an array of errors.', (done) => {
+  it('returns an array of tasks.', (done) => {
     chai
       .request(app)
       .get(
@@ -140,9 +140,9 @@ describe('Make a request to get a lists of tasks with parameters', () => {
           },
         } = res;
         expect(status).to.be.equal(200);
-        expect(count).to.be.equal(1);
+        expect(count).to.be.equal(2);
         expect(rows).to.be.an('Array');
-        expect(rows.length).to.be.equal(1);
+        expect(rows.length).to.be.equal(2);
         done(err);
       });
   });
