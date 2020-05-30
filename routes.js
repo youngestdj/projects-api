@@ -33,6 +33,7 @@ router
     validateUser,
     validateProjectId,
     TaskController.createTask
-  );
+  )
+  .get(TaskController.getTasks);
 router.route('/users').get(UserController.getUsers);
 export default router;

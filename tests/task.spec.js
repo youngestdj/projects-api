@@ -103,3 +103,47 @@ describe('Make a request to create task with invalid project id', () => {
       });
   });
 });
+
+describe('Make a request to get a lists of tasks with no parameters', () => {
+  it('returns an array of errors.', (done) => {
+    chai
+      .request(app)
+      .get('/API/tasks')
+      .end((err, res) => {
+        const {
+          status,
+          body: {
+            tasks: { count, rows },
+          },
+        } = res;
+        expect(status).to.be.equal(200);
+        expect(count).to.be.equal(1);
+        expect(rows).to.be.an('Array');
+        expect(rows.length).to.be.equal(1);
+        done(err);
+      });
+  });
+});
+
+describe('Make a request to get a lists of tasks with parameters', () => {
+  it('returns an array of errors.', (done) => {
+    chai
+      .request(app)
+      .get(
+        '/API/tasks?name=Sample task&description=Lorem ipsum stuff&status=active&status=declined&assignerName=valid&assignerSurname=surname&assigneeName=valid&assigneeSurname=surname&assigneeId=1&score=4'
+      )
+      .end((err, res) => {
+        const {
+          status,
+          body: {
+            tasks: { count, rows },
+          },
+        } = res;
+        expect(status).to.be.equal(200);
+        expect(count).to.be.equal(1);
+        expect(rows).to.be.an('Array');
+        expect(rows.length).to.be.equal(1);
+        done(err);
+      });
+  });
+});
