@@ -1,4 +1,6 @@
-# projects-api
+# projects-api  
+[![Build Status](https://travis-ci.com/youngestdj/projects-api.svg?branch=master)](https://travis-ci.com/youngestdj/projects-api) [![Test Coverage](https://api.codeclimate.com/v1/badges/5f3cf4d1625acae6f289/test_coverage)](https://codeclimate.com/github/youngestdj/projects-api/test_coverage)  
+
 
 ### Documentation
 
