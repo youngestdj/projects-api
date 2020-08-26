@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "sequelize db:migrate:undo:all && sequelize db:migrate && nyc --reporter=lcov --reporter=text mocha tests/index.js --timeout=20000 --require @babel/register --exit",
+    "test": "sequelize db:migrate:undo:all && sequelize db:migrate && nyc --reporter=lcov --reporter=text mocha dist/tests/index.js --timeout=20000 --require @babel/register --exit",
     "start:dev": "babel-watch index.js",
     "start": "sequelize db:migrate && node dist/index",
     "build": "rm -rf dist && babel ./src -d ./dist",
