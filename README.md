@@ -49,7 +49,7 @@
 }
 ```
 
-`{status}`: `active`, `inactive`, `declined`, `completed`
+`{status}`: `active`, `inactive`, `declined`, `completed`  
 
 ##### Response body
 
